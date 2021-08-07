@@ -2,7 +2,7 @@ import random
 import enemy
 
 leftHandMc = 1
-rightHandMc = 1
+rightHandMc = 0
 leftHandEn = 1
 rightHandEn = 1
 
@@ -18,6 +18,11 @@ illegalMove = False
 
 def checkDeadHands():
     global running
+    global leftHandMcAlive
+    global rightHandMcAlive
+    global leftHandEnAlive
+    global rightHandEnAlive
+
     # check for dead hand for mc
     if leftHandMc == 0:
         leftHandMcAlive = False
@@ -29,7 +34,9 @@ def checkDeadHands():
     else:
         rightHandMcAlive = True
 
-    if leftHandMcAlive == False & rightHandMcAlive == False:
+    if leftHandMcAlive or rightHandMcAlive :
+        pass
+    else:
         print("you lost better luck next time")
         running = False
 
@@ -104,7 +111,20 @@ def attack():
             leftHandEn += leftHandMc
         else:
             rightHandEn += leftHandMc
-
+    #if only the right hand is alive
+    elif rightHandMcAlive:
+        if leftHandEnAlive & rightHandEnAlive:
+            askForEnemyHand = input("Which one of the ememy hand do you want to attack\n"
+                                    "[1] Left\n"
+                                    "[2] Right\n")
+            if askForEnemyHand == "1":
+                leftHandEn += rightHandMc
+            else:
+                rightHandEn += rightHandMc
+        elif leftHandEnAlive:
+            leftHandEn += rightHandMc
+        else:
+            rightHandEn += rightHandMc
     printAll()
 
 
