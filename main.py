@@ -63,6 +63,8 @@ def printAll():
 def attack():
     global leftHandEn
     global rightHandEn
+    global leftHandMc
+    global rightHandMc
 
     # allows you to chose which hand you want to attack with
     if leftHandMcAlive & rightHandMcAlive:
@@ -146,6 +148,25 @@ def enemyAttack():
             rightHandMc += rightHandEn
     print("The enemy attacks!")
     printAll()
+
+def divide():
+    global leftHandEn
+    global rightHandEn
+    global leftHandMc
+    global rightHandMc
+
+    if leftHandMcAlive & rightHandMcAlive:
+        askForHand = input("Which hand do you want to add to?\n"
+                           "[1] Left\n"
+                           "[2] Right\n")
+        if askForHand == "1":
+            askForAmount = input("how many fingers do you want to transfer to that finger: ")
+            numberOfFingers = int(askForAmount)
+            leftHandMc += numberOfFingers
+            rightHandMc -= numberOfFingers
+        else:
+            askForHand 
+
 
 
 printAll()
