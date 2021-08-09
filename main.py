@@ -1,8 +1,8 @@
 import random
 import enemy
 
-leftHandMc = 1
-rightHandMc = 0
+leftHandMc = 0
+rightHandMc = 4
 leftHandEn = 1
 rightHandEn = 1
 
@@ -165,8 +165,26 @@ def divide():
             leftHandMc += numberOfFingers
             rightHandMc -= numberOfFingers
         else:
-            askForHand 
+            askForAmount = input("how many fingers do you want to transfer to that finger: ")
+            numberOfFingers = int(askForAmount)
+            leftHandMc -= numberOfFingers
+            rightHandMc += numberOfFingers
 
+    elif leftHandMcAlive and leftHandMc > 1:
+        askForAmount = input("how many fingers do you want to move over to your right hand: ")
+        numberOfFingers = int(askForAmount)
+        leftHandMc -= numberOfFingers
+        rightHandMc += numberOfFingers
+
+    elif rightHandMcAlive and rightHandMc > 1:
+        askForAmount = input("how many fingers do you want to move over to your left hand: ")
+        numberOfFingers = int(askForAmount)
+        leftHandMc += numberOfFingers
+        rightHandMc -= numberOfFingers
+    else:
+        print("Hey thats illegal")
+
+    printAll()
 
 
 printAll()
@@ -180,7 +198,7 @@ while running:
         if askForMove == "1":
             attack()
         else:
-            print("yea")
+            divide()
 
         enemyMove = random.randint(1,1)
 
