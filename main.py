@@ -1,8 +1,8 @@
 import random
 import enemy
 
-leftHandMc = 0
-rightHandMc = 4
+leftHandMc = 1
+rightHandMc = 1
 leftHandEn = 1
 rightHandEn = 1
 
