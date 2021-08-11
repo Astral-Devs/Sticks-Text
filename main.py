@@ -1,20 +1,27 @@
 import random
 import enemy
 
-leftHandMc = 1
-rightHandMc = 1
+leftHandMc = 0
+rightHandMc = 2
 leftHandEn = 1
 rightHandEn = 1
+
+projectedMcleftHand = leftHandMc
+projectedMcRightHand = rightHandMc
+projectedEnLeftHand = leftHandEn
+projectedEnRightHand = rightHandEn
 
 leftHandMcAlive = True
 rightHandMcAlive = True
 leftHandEnAlive = True
 rightHandEnAlive = True
 
+
+numberOfFingers = 0
+
 running = True
 
-illegalMove = False
-
+pickedIllegalAmount = True
 
 def checkDeadHands():
     global running
@@ -50,7 +57,7 @@ def checkDeadHands():
     else:
         rightHandEnAlive = True
 
-    if leftHandEnAlive == False & rightHandEnAlive == False:
+    if leftHandEnAlive == False and rightHandEnAlive == False:
         print("you won and that is pog")
         running = False
 
@@ -66,14 +73,15 @@ def attack():
     global leftHandMc
     global rightHandMc
 
+
     # allows you to chose which hand you want to attack with
-    if leftHandMcAlive & rightHandMcAlive:
+    if leftHandMcAlive and rightHandMcAlive:
         askForHand = input("Which hand do you want to use\n"
                            "[1] Left\n"
                            "[2] Right\n")
         #Left hand
         if askForHand == "1":
-            if leftHandEnAlive & rightHandEnAlive:
+            if leftHandEnAlive and rightHandEnAlive:
                 askForEnemyHand = input("Which one of the ememy hand do you want to attack\n"
                                         "[1] Left\n"
                                         "[2] Right\n")
@@ -87,7 +95,7 @@ def attack():
                 rightHandEn += leftHandMc
         # Right hand
         else:
-            if leftHandEnAlive & rightHandEnAlive:
+            if leftHandEnAlive and rightHandEnAlive:
                 askForEnemyHand = input("Which one of the ememy hand do you want to attack\n"
                                         "[1] Left\n"
                                         "[2] Right\n")
@@ -101,7 +109,7 @@ def attack():
                 rightHandEn += rightHandMc
     # If only the left hand is alive
     elif leftHandMcAlive:
-        if leftHandEnAlive & rightHandEnAlive:
+        if leftHandEnAlive and rightHandEnAlive:
             askForEnemyHand = input("Which one of the ememy hand do you want to attack\n"
                                     "[1] Left\n"
                                     "[2] Right\n")
@@ -115,7 +123,7 @@ def attack():
             rightHandEn += leftHandMc
     #if only the right hand is alive
     elif rightHandMcAlive:
-        if leftHandEnAlive & rightHandEnAlive:
+        if leftHandEnAlive and rightHandEnAlive:
             askForEnemyHand = input("Which one of the ememy hand do you want to attack\n"
                                     "[1] Left\n"
                                     "[2] Right\n")
@@ -149,40 +157,102 @@ def enemyAttack():
     print("The enemy attacks!")
     printAll()
 
-def divide():
+
+def resetMcProjection():
+    global projectedMcRightHand
+    global projectedMcleftHand
+
+    projectedMcleftHand = leftHandMc
+    projectedMcRightHand = rightHandMc
+
+
+def projectRightMc():
+    global rightHandMc
+    global projectedMcRightHand
+    global numberOfFingers
+
+    resetMcProjection()
+
+    projectedMcRightHand = rightHandMc - numberOfFingers
+    print (rightHandMc)
+    print(projectedMcRightHand)
+    legalMove = False
+    if rightHandMc > 1 & projectedMcRightHand < 1:
+        legalMove = True
+    else:
+        legalMove = False
+
+    return False
+
+def projectLeftMc():
+    global leftHandMc
+    global projectedMcleftHand
+    global numberOfFingers
+
+    resetMcProjection()
+    projectedMcleftHand = leftHandMc - numberOfFingers
+    legalMove = False
+    if leftHandMc > 1 & projectedMcleftHand < 1:
+        legalMove = False
+    else:
+        legalMove = True
+
+    return legalMove
+
+def split():
+
     global leftHandEn
     global rightHandEn
     global leftHandMc
     global rightHandMc
+    global numberOfFingers
+    global pickedIllegalAmount
 
-    if leftHandMcAlive & rightHandMcAlive:
-        askForHand = input("Which hand do you want to add to?\n"
-                           "[1] Left\n"
-                           "[2] Right\n")
-        if askForHand == "1":
-            askForAmount = input("how many fingers do you want to transfer to that finger: ")
+
+    while pickedIllegalAmount:
+        if leftHandMcAlive and rightHandMcAlive:
+            askForHand = input("Which hand do you want to add to?\n"
+                               "[1] Left\n"
+                               "[2] Right\n")
+            if askForHand == "1":
+                askForAmount = input("how many fingers do you want to transfer to that finger: ")
+                numberOfFingers = int(askForAmount)
+
+                if rightHandMc >= numberOfFingers & projectRightMc():
+                    leftHandMc += numberOfFingers
+                    rightHandMc -= numberOfFingers
+                    pickedIllegalAmount = False
+
+            else:
+                askForAmount = input("how many fingers do you want to transfer to that finger: ")
+                numberOfFingers = int(askForAmount)
+
+                if leftHandMc >= numberOfFingers & projectLeftMc():
+                    leftHandMc -= numberOfFingers
+                    rightHandMc += numberOfFingers
+                    pickedIllegalAmount = False
+
+        elif leftHandMcAlive and leftHandMc > 1:
+            askForAmount = input("how many fingers do you want to move over to your right hand: ")
             numberOfFingers = int(askForAmount)
-            leftHandMc += numberOfFingers
-            rightHandMc -= numberOfFingers
+
+            if leftHandMc >= numberOfFingers & projectLeftMc():
+                leftHandMc -= numberOfFingers
+                rightHandMc += numberOfFingers
+                pickedIllegalAmount = False
+
+        elif rightHandMcAlive and rightHandMc > 1:
+            askForAmount = input("how many fingers do you want to move over to your left hand: ")
+            numberOfFingers = int(askForAmount)
+
+            if rightHandMc >= numberOfFingers & projectRightMc():
+                leftHandMc += numberOfFingers
+                rightHandMc -= numberOfFingers
+                pickedIllegalAmount = False
+
         else:
-            askForAmount = input("how many fingers do you want to transfer to that finger: ")
-            numberOfFingers = int(askForAmount)
-            leftHandMc -= numberOfFingers
-            rightHandMc += numberOfFingers
-
-    elif leftHandMcAlive and leftHandMc > 1:
-        askForAmount = input("how many fingers do you want to move over to your right hand: ")
-        numberOfFingers = int(askForAmount)
-        leftHandMc -= numberOfFingers
-        rightHandMc += numberOfFingers
-
-    elif rightHandMcAlive and rightHandMc > 1:
-        askForAmount = input("how many fingers do you want to move over to your left hand: ")
-        numberOfFingers = int(askForAmount)
-        leftHandMc += numberOfFingers
-        rightHandMc -= numberOfFingers
-    else:
-        print("Hey thats illegal")
+            print("Hey thats illegal")
+            pickedIllegalAmount = False
 
     printAll()
 
@@ -198,7 +268,8 @@ while running:
         if askForMove == "1":
             attack()
         else:
-            divide()
+            pickedIllegalAmount = True
+            split()
 
         enemyMove = random.randint(1,1)
 
