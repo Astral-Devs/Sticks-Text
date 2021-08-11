@@ -2,7 +2,7 @@ import random
 import enemy
 
 leftHandMc = 0
-rightHandMc = 2
+rightHandMc = 3
 leftHandEn = 1
 rightHandEn = 1
 
@@ -174,15 +174,13 @@ def projectRightMc():
     resetMcProjection()
 
     projectedMcRightHand = rightHandMc - numberOfFingers
-    print (rightHandMc)
-    print(projectedMcRightHand)
     legalMove = False
-    if rightHandMc > 1 & projectedMcRightHand < 1:
-        legalMove = True
-    else:
+    if leftHandMc < 1 and projectedMcRightHand < 1 :
         legalMove = False
+    else:
+        legalMove = True
 
-    return False
+    return legalMove
 
 def projectLeftMc():
     global leftHandMc
@@ -192,7 +190,8 @@ def projectLeftMc():
     resetMcProjection()
     projectedMcleftHand = leftHandMc - numberOfFingers
     legalMove = False
-    if leftHandMc > 1 & projectedMcleftHand < 1:
+
+    if rightHandMc < 1 and projectedMcleftHand < 1:
         legalMove = False
     else:
         legalMove = True
@@ -218,7 +217,7 @@ def split():
                 askForAmount = input("how many fingers do you want to transfer to that finger: ")
                 numberOfFingers = int(askForAmount)
 
-                if rightHandMc >= numberOfFingers & projectRightMc():
+                if rightHandMc >= numberOfFingers and projectRightMc():
                     leftHandMc += numberOfFingers
                     rightHandMc -= numberOfFingers
                     pickedIllegalAmount = False
@@ -227,7 +226,7 @@ def split():
                 askForAmount = input("how many fingers do you want to transfer to that finger: ")
                 numberOfFingers = int(askForAmount)
 
-                if leftHandMc >= numberOfFingers & projectLeftMc():
+                if leftHandMc >= numberOfFingers and projectLeftMc():
                     leftHandMc -= numberOfFingers
                     rightHandMc += numberOfFingers
                     pickedIllegalAmount = False
@@ -236,7 +235,7 @@ def split():
             askForAmount = input("how many fingers do you want to move over to your right hand: ")
             numberOfFingers = int(askForAmount)
 
-            if leftHandMc >= numberOfFingers & projectLeftMc():
+            if leftHandMc >= numberOfFingers and projectLeftMc():
                 leftHandMc -= numberOfFingers
                 rightHandMc += numberOfFingers
                 pickedIllegalAmount = False
@@ -245,7 +244,7 @@ def split():
             askForAmount = input("how many fingers do you want to move over to your left hand: ")
             numberOfFingers = int(askForAmount)
 
-            if rightHandMc >= numberOfFingers & projectRightMc():
+            if rightHandMc >= numberOfFingers and projectRightMc():
                 leftHandMc += numberOfFingers
                 rightHandMc -= numberOfFingers
                 pickedIllegalAmount = False
