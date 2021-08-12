@@ -1,8 +1,8 @@
 import random
 import enemy
 
-leftHandMc = 4
-rightHandMc = 0
+leftHandMc = 1
+rightHandMc = 1
 leftHandEn = 1
 rightHandEn = 1
 
@@ -29,8 +29,20 @@ def checkDeadHands():
     global rightHandMcAlive
     global leftHandEnAlive
     global rightHandEnAlive
+    global leftHandMc
+    global rightHandMc
+    global leftHandEn
+    global rightHandEn
 
     # check for dead hand for mc
+    while leftHandMc >= 5:
+        leftHandMc -= 5
+    while rightHandMc >=5:
+        rightHandMc -= 5
+    while leftHandEn >= 5:
+        leftHandEn -= 5
+    while rightHandEn >= 5:
+        rightHandEn -= 5
 
 
     if leftHandMc == 0:
@@ -64,10 +76,12 @@ def checkDeadHands():
         running = False
 
 def printAll():
+    checkDeadHands()
     print("Left hand(MC): "+ str(leftHandMc))
     print("Right hand(MC): " + str(rightHandMc))
     print("Left hand(EN): " + str(leftHandEn))
     print("Right hand(EN): " + str(rightHandEn))
+
 
 def attack():
     global leftHandEn
