@@ -1,8 +1,8 @@
 import random
 import enemy
 
-leftHandMc = 1
-rightHandMc = 1
+leftHandMc = 4
+rightHandMc = 0
 leftHandEn = 1
 rightHandEn = 1
 
@@ -31,11 +31,8 @@ def checkDeadHands():
     global rightHandEnAlive
 
     # check for dead hand for mc
-    if leftHandMc > 4:
-        leftHandMc -= 5
-    if rightHandMc > 4:
-        rightHandMc -= 5
-    
+
+
     if leftHandMc == 0:
         leftHandMcAlive = False
     else:
