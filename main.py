@@ -1,8 +1,8 @@
 import random
 import enemy
 
-leftHandMc = 1
-rightHandMc = 1
+leftHandMc = 4
+rightHandMc = 4
 leftHandEn = 0
 rightHandEn = 1
 
@@ -81,6 +81,48 @@ def printAll():
     print("Right hand(MC): " + str(rightHandMc))
     print("Left hand(EN): " + str(leftHandEn))
     print("Right hand(EN): " + str(rightHandEn))
+
+
+def resetMcProjection():
+    global projectedMcRightHand
+    global projectedMcleftHand
+
+    projectedMcleftHand = leftHandMc
+    projectedMcRightHand = rightHandMc
+
+
+def projectRightMc():
+    global rightHandMc
+    global projectedMcRightHand
+    global numberOfFingers
+
+    resetMcProjection()
+
+    projectedMcRightHand = rightHandMc - numberOfFingers
+    legalMove = False
+    if leftHandMc < 1 and projectedMcRightHand < 1:
+        legalMove = False
+    else:
+        legalMove = True
+
+    return legalMove
+
+
+def projectLeftMc():
+    global leftHandMc
+    global projectedMcleftHand
+    global numberOfFingers
+
+    resetMcProjection()
+    projectedMcleftHand = leftHandMc - numberOfFingers
+    legalMove = False
+
+    if rightHandMc < 1 and projectedMcleftHand < 1:
+        legalMove = False
+    else:
+        legalMove = True
+
+    return legalMove
 
 
 def attack():
@@ -204,51 +246,7 @@ def enemyAttack():
     printAll()
 
 
-def resetMcProjection():
-    global projectedMcRightHand
-    global projectedMcleftHand
-
-    projectedMcleftHand = leftHandMc
-    projectedMcRightHand = rightHandMc
-
-
-def projectRightMc():
-    global rightHandMc
-    global projectedMcRightHand
-    global numberOfFingers
-
-    resetMcProjection()
-
-    projectedMcRightHand = rightHandMc - numberOfFingers
-    legalMove = False
-    if leftHandMc < 1 and projectedMcRightHand < 1:
-        legalMove = False
-    else:
-        legalMove = True
-
-    return legalMove
-
-
-def projectLeftMc():
-    global leftHandMc
-    global projectedMcleftHand
-    global numberOfFingers
-
-    resetMcProjection()
-    projectedMcleftHand = leftHandMc - numberOfFingers
-    legalMove = False
-
-    if rightHandMc < 1 and projectedMcleftHand < 1:
-        legalMove = False
-    else:
-        legalMove = True
-
-    return legalMove
-
-
 def split():
-    global leftHandEn
-    global rightHandEn
     global leftHandMc
     global rightHandMc
     global numberOfFingers
@@ -301,6 +299,17 @@ def split():
 
     printAll()
 
+def enemySplit():
+    global leftHandEn
+    global rightHandEn
+    global pickedIllegalAmount
+    global numberOfFingers
+
+    while pickedIllegalAmount:
+        if leftHandEnAlive and rightHandEnAlive:
+            pass
+
+
 
 printAll()
 while running:
@@ -321,4 +330,6 @@ while running:
         if enemyMove == 1:
             enemyAttack()
         else:
-            print("yea")
+            pickedIllegalAmount = True
+            enemySplit()
+
